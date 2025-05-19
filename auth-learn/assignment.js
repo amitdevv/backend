@@ -58,6 +58,9 @@ app.post("/signin", logger,function (req, res) {
   }
 });
 
+//Purpose: Protects routes by verifying user authentication
+//Middlewares can add data to req (like req.username)
+//Next Function: Critical for passing control to the next middleware
 function auth(req,res,next){
   const token=req.headers.token;
   const decodedData=jwt.verify(token,JWT_SECRET)
@@ -72,6 +75,7 @@ function auth(req,res,next){
   }
 }
 
+//first logger then auth and if auth fail then route handler never executes
 app.get("/me",logger,auth, function (req, res) {
   
      let foundUser = null;
